@@ -5,12 +5,14 @@ from typing import Tuple, Dict, Set
 
 
 class BadResponseError(Exception):
-    """Класс исключения, которое предназначено для информирования о том,
+    """
+    Класс исключения, которое предназначено для информирования о том,
     что попытка запроса через requests.get завершилась неудачно.
     """
 
     def __init__(self, response_code: int):
-        """Задание кода, который был возвращен в результате запроса.
+        """
+        Задание кода, который был возвращен в результате запроса.
 
         :param response_code: код возврата (response.status_code)
         """
@@ -21,12 +23,15 @@ class BadResponseError(Exception):
 
 
 class BeautifulSoupHtmlParser:
-    """Данный класс предназначен для парсинга веб-страницы с помощью BeautifulSoup."""
+    """
+    Данный класс предназначен для парсинга веб-страницы с помощью BeautifulSoup.
+    """
 
     OK_RESPONSE_STATUS = 200
 
     def __init__(self, parser: str):
-        """Задание парсера, который будет использоваться
+        """
+        Задание парсера, который будет использоваться
         (обычно html.parser или lxml|html5lib).
 
         :param parser: имя парсера
@@ -34,7 +39,8 @@ class BeautifulSoupHtmlParser:
         self.parser = parser
 
     def __call__(self, url: str) -> BeautifulSoup:
-        """Парсинг html-кода веб-страницы по адресу url.
+        """
+        Парсинг html-кода веб-страницы по адресу url.
 
         :param url: целевая веб-страница
         :return: результирующий объект BeautifulSoup
@@ -46,7 +52,9 @@ class BeautifulSoupHtmlParser:
 
 
 class HseEduProgramsWebScraper:
-    """Класс, реализующий веб-скрапинг страницы с образовательными программами ВШЭ."""
+    """
+    Класс, реализующий веб-скрапинг страницы с образовательными программами ВШЭ.
+    """
 
     TARGET_TOWNS = ['Москва']
     REGULAR_DOMAINS = ['www.hse.ru']
@@ -59,7 +67,8 @@ class HseEduProgramsWebScraper:
 
     @staticmethod
     def sanitize_str(s: str) -> str:
-        """Очистка строки от странных символов, которые могут быть в html-коде и от
+        """
+        Очистка строки от странных символов, которые могут быть в html-коде и от
         пробельных символов в начале и конце.
 
         :return: очищенная строка
@@ -67,7 +76,8 @@ class HseEduProgramsWebScraper:
         return s.strip().replace('\xa0', ' ')
 
     def get(self) -> Tuple[Dict[str, Set[str]], Dict[str, str]]:
-        """Получение и обработка данных с сайта Вышки со списком всех
+        """
+        Получение и обработка данных с сайта Вышки со списком всех
         бакалаврских ОП Московского кампуса.
 
         :return: кортеж, первый элемент которого содержит информацию о факультетах и
@@ -111,7 +121,9 @@ class HseEduProgramsWebScraper:
 
 
 class HseRatingGetter:
-    """Класс, реализующий веб-скрапинг страниц с рейтингами."""
+    """
+    Класс, реализующий веб-скрапинг страниц с рейтингами.
+    """
 
     def __init__(self, program: str, scraper: HseEduProgramsWebScraper):
         programs = scraper.get()[1]
@@ -120,7 +132,8 @@ class HseRatingGetter:
         self.url_code = programs[program]
 
     def __call__(self, rating_name: str, course: int) -> pd.DataFrame:
-        """Получить датафрейм с рейтингом.
+        """
+        Получить датафрейм с рейтингом.
 
         :param rating_name: название рейтинга
         :param course: номер курса
